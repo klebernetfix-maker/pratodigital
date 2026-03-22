@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prato Digital</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --orange:#F97316;--orange-d:#EA580C;--orange-l:#FFF7ED;--orange-ll:#FFF4EE;
+  --grad:linear-gradient(135deg,#FB923C 0%,#F97316 40%,#EA580C 100%);
+  --white:#fff;--bg:#F9F6F3;--surface:#fff;
+  --g100:#F1F5F9;--g200:#E2E8F0;--g400:#94A3B8;--g500:#64748B;--g600:#475569;--g700:#334155;--g800:#1E293B;--g900:#0F172A;
+  --green:#10B981;--red:#EF4444;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--g900);min-height:100vh}
+
+/* ── TOPBAR ── */
+.topbar{
+  height:64px;background:var(--white);border-bottom:1px solid var(--g200);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;position:sticky;top:0;z-index:100;
+}
+.tb-brand{display:flex;align-items:center;gap:12px}
+.tb-icon{width:40px;height:40px;background:var(--grad);border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(249,115,22,.3)}
+.tb-icon svg{width:20px;height:20px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tb-name{font-size:18px;font-weight:800;color:var(--g900);letter-spacing:-.4px}
+.tb-sub{font-size:11px;color:var(--g400);font-weight:400;margin-top:1px}
+.tb-right{display:flex;align-items:center;gap:10px}
+.chip-online{display:flex;align-items:center;gap:6px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:20px;padding:6px 12px;font-size:12px;font-weight:600;color:#166534}
+.dot-g{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pg 2s infinite}
+@keyframes pg{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.4)}50%{box-shadow:0 0 0 4px rgba(16,185,129,0)}}
+.tb-date{font-size:12px;color:var(--g400);font-weight:500}
+
+/* ── CONTENT ── */
+.content{padding:36px 40px 48px;max-width:1100px;margin:0 auto}
+
+/* ── HERO ── */
+.hero{
+  background:var(--grad);border-radius:20px;
+  padding:36px 40px;margin-bottom:28px;
+  position:relative;overflow:hidden;
+  box-shadow:0 8px 32px rgba(249,115,22,.22);
+}
+.orb{position:absolute;border-radius:50%;pointer-events:none}
+.orb1{width:300px;height:300px;top:-80px;right:-60px;background:rgba(255,255,255,.09)}
+.orb2{width:180px;height:180px;bottom:-60px;right:260px;background:rgba(255,255,255,.06)}
+
+.hero-inner{display:flex;align-items:center;justify-content:space-between;gap:32px;position:relative;z-index:1}
+.hero-left{flex:1;min-width:0}
+
+.hero-ey{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11px;font-weight:700;color:rgba(255,255,255,.75);
+  letter-spacing:1.4px;text-transform:uppercase;margin-bottom:12px;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+  border-radius:20px;padding:5px 12px;
+}
+.hero-ey-dot{width:6px;height:6px;border-radius:50%;background:#4ADE80;flex-shrink:0;animation:pg 2s infinite}
+
+.hero-title{
+  font-size:36px;font-weight:900;color:white;
+  line-height:1.1;letter-spacing:-1px;margin-bottom:12px;
+}
+.hero-sub{
+  font-size:14px;color:rgba(255,255,255,.75);
+  line-height:1.6;font-weight:400;
+  max-width:440px;margin-bottom:22px;
+}
+
+.hero-chips{display:flex;gap:8px;flex-wrap:wrap}
+.hero-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);
+  border-radius:20px;padding:6px 12px;
+  font-size:12px;font-weight:600;color:rgba(255,255,255,.9);
+  white-space:nowrap;
+}
+.hero-chip svg{width:13px;height:13px;stroke:rgba(255,255,255,.9);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+
+/* KPI grid */
+.hero-right{flex-shrink:0}
+.hero-kpi-grid{
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:18px;padding:22px 28px;
+  display:flex;align-items:center;gap:20px;
+  backdrop-filter:blur(8px);
+}
+.hero-kpi{text-align:center}
+.hero-kpi-num{font-size:28px;font-weight:900;color:white;letter-spacing:-.6px;line-height:1}
+.hero-kpi-lbl{font-size:11px;color:rgba(255,255,255,.65);font-weight:500;margin-top:5px;white-space:nowrap}
+.hero-kpi-divider{width:1px;height:40px;background:rgba(255,255,255,.2)}
+
+@media(max-width:860px){
+  .hero{padding:22px 18px;border-radius:16px;margin-bottom:20px}
+  .hero-inner{flex-direction:column;align-items:flex-start;gap:20px}
+  .hero-title{font-size:24px}
+  .hero-sub{font-size:13px;margin-bottom:16px}
+  .hero-right{width:100%}
+  .hero-kpi-grid{width:100%;justify-content:space-around;padding:16px 20px}
+  .hero-kpi-num{font-size:22px}
+}
+@media(max-width:400px){
+  .hero-title{font-size:21px}
+  .hero-chips{gap:6px}
+  .hero-chip{font-size:11px;padding:5px 10px}
+}
+
+/* ── SECTION HEAD ── */
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:18px}
+.sec-title{font-size:18px;font-weight:800;color:var(--g900);letter-spacing:-.3px}
+.sec-sub{font-size:12px;color:var(--g400);font-weight:400;margin-top:3px}
+.sec-count{font-size:12px;color:var(--g400);font-weight:500}
+
+/* ── MODULES GRID ── */
+.mods{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+
+.mod{
+  background:var(--surface);border:1.5px solid var(--g200);border-radius:18px;
+  overflow:hidden;cursor:pointer;text-decoration:none;display:block;
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+  box-shadow:0 1px 4px rgba(0,0,0,.04);
+  animation:su .4s ease both;
+}
+.mod:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.1)}
+.mod:nth-child(1){animation-delay:.05s}.mod:nth-child(2){animation-delay:.1s}
+.mod:nth-child(3){animation-delay:.15s}.mod:nth-child(4){animation-delay:.2s}
+.mod:nth-child(5){animation-delay:.25s}
+@keyframes su{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.mod:nth-child(1):hover{border-color:rgba(249,115,22,.3)}
+.mod:nth-child(2):hover{border-color:rgba(245,158,11,.3)}
+.mod:nth-child(3):hover{border-color:rgba(16,185,129,.3)}
+.mod:nth-child(4):hover{border-color:rgba(139,92,246,.3)}
+.mod:nth-child(5):hover{border-color:rgba(20,184,166,.3)}
+
+.mod-top{height:4px}
+.mod-body{display:flex;align-items:center;gap:16px;padding:20px}
+.mod-icon{width:54px;height:54px;border-radius:15px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mod-icon svg{width:26px;height:26px;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.mod-mid{flex:1;min-width:0}
+.mod-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:6px;margin-bottom:6px}
+.mod-name{font-size:17px;font-weight:700;color:var(--g900);letter-spacing:-.3px;margin-bottom:3px}
+.mod-desc{font-size:12px;color:var(--g500);line-height:1.4}
+.mod-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex-shrink:0}
+.mod-arr{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;transition:transform .2s}
+.mod:hover .mod-arr{transform:translateX(4px)}
+.mod-arr svg{width:16px;height:16px;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.mod-pill{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap}
+
+/* colors */
+.t-del{background:#F97316}.i-del{background:#FFF4EE}.i-del svg{stroke:#F97316}
+.g-del{background:#FFF4EE;color:#C2500A}.a-del{background:#FFF4EE}.a-del svg{stroke:#F97316}.p-del{background:#FFF4EE;color:#C2500A}
+
+.t-ret{background:#F59E0B}.i-ret{background:#FFFBEB}.i-ret svg{stroke:#D97706}
+.g-ret{background:#FFFBEB;color:#92400E}.a-ret{background:#FFFBEB}.a-ret svg{stroke:#D97706}.p-ret{background:#FFFBEB;color:#92400E}
+
+.t-fur{background:#10B981}.i-fur{background:#ECFDF5}.i-fur svg{stroke:#059669}
+.g-fur{background:#ECFDF5;color:#065F46}.a-fur{background:#ECFDF5}.a-fur svg{stroke:#059669}.p-fur{background:#ECFDF5;color:#065F46}
+
+.t-fid{background:#8B5CF6}.i-fid{background:#F5F3FF}.i-fid svg{stroke:#7C3AED}
+.g-fid{background:#F5F3FF;color:#4C1D95}.a-fid{background:#F5F3FF}.a-fid svg{stroke:#7C3AED}.p-fid{background:#F5F3FF;color:#4C1D95}
+
+.t-ant{background:#14B8A6}.i-ant{background:#F0FDFA}.i-ant svg{stroke:#0D9488}
+.g-ant{background:#F0FDFA;color:#0F766E}.a-ant{background:#F0FDFA}.a-ant svg{stroke:#0D9488}.p-ant{background:#F0FDFA;color:#0F766E}
+
+/* ── CRM BANNER ── */
+.crm-banner{
+  background:linear-gradient(135deg,#1E1433 0%,#2D1B69 50%,#3B2090 100%);
+  border-radius:16px;margin-bottom:28px;padding:24px 28px;
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  cursor:pointer;position:relative;overflow:hidden;
+  box-shadow:0 8px 32px rgba(79,46,220,.25);
+  transition:transform .2s ease,box-shadow .2s ease;
+  animation:su .4s ease both;
+}
+.crm-banner:hover{transform:translateY(-2px);box-shadow:0 16px 40px rgba(79,46,220,.35)}
+.crm-orb1{position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.06);top:-60px;right:80px;pointer-events:none}
+.crm-orb2{position:absolute;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.04);bottom:-30px;right:280px;pointer-events:none}
+.crm-left{display:flex;align-items:flex-start;gap:16px;flex:1;min-width:0;position:relative;z-index:1}
+.crm-icon{width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.crm-text{flex:1;min-width:0}
+.crm-titlerow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.crm-title{font-size:16px;font-weight:800;color:white;letter-spacing:-.3px}
+.crm-badge{background:#F59E0B;color:#1C1200;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.crm-desc{font-size:13px;color:rgba(255,255,255,.72);line-height:1.6;font-weight:400;margin:0}
+.crm-cta{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);
+  border-radius:10px;padding:10px 18px;
+  font-size:13px;font-weight:700;color:white;white-space:nowrap;
+  flex-shrink:0;position:relative;z-index:1;
+}
+
+@media(max-width:860px){
+  .crm-banner{flex-direction:column;align-items:flex-start;padding:20px;gap:16px}
+  .crm-cta{width:100%;justify-content:center}
+  .crm-orb1{display:none}.crm-orb2{display:none}
+}
+
+/* ── FOOTER ── */
+.footer{margin-top:40px;padding-top:24px;border-top:1px solid var(--g200);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-left{font-size:12px;color:var(--g400)}
+.footer-links{display:flex;gap:16px}
+.footer-links a{font-size:12px;color:var(--g400);text-decoration:none;font-weight:500;transition:color .15s}
+.footer-links a:hover{color:var(--orange)}
+
+/* ── MODAL ── */
+.modal-ov{
+  display:none;position:fixed;inset:0;
+  background:rgba(15,23,42,.5);
+  z-index:999;
+  align-items:center;justify-content:center;
+  padding:20px;
+}
+.modal-ov.open{display:flex}
+.modal{
+  background:white;border-radius:20px;overflow:hidden;
+  width:100%;max-width:560px;
+  box-shadow:0 32px 80px rgba(0,0,0,.25);
+  animation:mIn .22s ease;
+}
+@keyframes mIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+.modal-head{padding:24px 24px 20px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.modal-head-left{display:flex;align-items:center;gap:14px}
+.modal-hicon{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.modal-hicon svg{width:26px;height:26px;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;fill:none}
+.modal-htag{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:3px 9px;border-radius:6px;display:inline-block;margin-bottom:5px}
+.modal-htitle{font-size:22px;font-weight:800;color:var(--g900);letter-spacing:-.4px}
+.modal-close{width:36px;height:36px;border:1.5px solid var(--g200);background:white;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+.modal-close:hover{background:var(--g100)}
+.modal-close svg{width:16px;height:16px;stroke:var(--g500);fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.modal-divider{height:1px;background:var(--g100);margin:0}
+.modal-body{padding:24px}
+.modal-text{font-size:14px;color:var(--g600);line-height:1.75;font-weight:400}
+.modal-footer{padding:0 24px 24px}
+.modal-btn{border:none;border-radius:10px;padding:11px 22px;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:white;cursor:pointer;transition:opacity .15s}
+.modal-btn:hover{opacity:.88}
+
+/* ── MOBILE HEADER ── */
+.mobile-header{
+  display:none;background:var(--grad);
+  padding:0 16px;height:58px;
+  align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 16px rgba(249,115,22,.3);
+}
+.mh-brand{display:flex;align-items:center;gap:10px}
+.mh-icon{width:34px;height:34px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.22);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.mh-icon svg{width:18px;height:18px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mh-name{font-size:17px;font-weight:800;color:white;letter-spacing:-.4px}
+.mh-btn{width:36px;height:36px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.2);border-radius:10px;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative}
+.mh-btn svg{width:17px;height:17px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mh-btn::after{content:'2';position:absolute;top:-4px;right:-4px;width:16px;height:16px;border-radius:50%;background:var(--red);color:white;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid var(--orange)}
+
+/* ── BOTTOM NAV ── */
+.bnav{
+  display:none;position:fixed;bottom:0;left:0;right:0;
+  background:white;border-top:1px solid var(--g200);
+  padding:8px 0 18px;z-index:100;
+  box-shadow:0 -4px 20px rgba(0,0,0,.07);
+  justify-content:space-around;
+}
+.ni{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:5px 14px;border-radius:12px;transition:background .15s;text-decoration:none}
+.ni:hover{background:var(--orange-l)}
+.ni svg{width:22px;height:22px;stroke:var(--g400);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:stroke .15s}
+.ni.active svg{stroke:var(--orange)}
+.ni-lbl{font-size:10px;font-weight:600;color:var(--g400);transition:color .15s}
+.ni.active .ni-lbl{color:var(--orange)}
+.ni-dot{width:4px;height:4px;border-radius:50%;background:var(--orange);margin-top:-1px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:860px){
+  .topbar{display:none}
+  .mobile-header{display:flex}
+  .content{padding:20px 14px 100px}
+  .hero{padding:22px 20px;border-radius:16px;margin-bottom:20px}
+  .hero-title{font-size:22px}
+  .hero-inner{flex-direction:column;align-items:flex-start;gap:16px}
+  .hero-badge{align-self:flex-start;padding:14px 20px}
+  .hero-num{font-size:30px}
+  .mods{grid-template-columns:1fr;gap:10px}
+  .footer{display:none}
+  .bnav{display:flex}
+}
+@media(max-width:480px){
+  .hero-title{font-size:20px}
+  .mod-name{font-size:15px}
+}
+</style>
+</head>
+<body>
+
+<!-- DESKTOP TOPBAR -->
+<div class="topbar">
+  <div class="tb-brand">
+    <div class="tb-icon">
+      <svg viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+    </div>
+    <div>
+      <div class="tb-name">Prato Digital</div>
+      <div class="tb-sub">Plataforma de vendas</div>
+    </div>
+  </div>
+  <div class="tb-right">
+    <div class="chip-online">
+      <span class="dot-g"></span>
+      Sistema online
+    </div>
+    <span class="tb-date">Dom, 22 de março de 2026</span>
+  </div>
+</div>
+
+<!-- MOBILE HEADER -->
+<header class="mobile-header">
+  <div class="mh-brand">
+    <div class="mh-icon">
+      <svg viewBox="0 0 24 24"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg>
+    </div>
+    <span class="mh-name">Prato Digital</span>
+  </div>
+  <div class="mh-btn">
+    <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+  </div>
+</header>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-ey">
+          <span class="hero-ey-dot"></span>
+          Plataforma de vendas
+        </div>
+        <div class="hero-title">Venda mais,<br>com menos esforço</div>
+        <div class="hero-sub">Gerencie delivery, retirada, fila e fidelidade em um só lugar — tudo pelo navegador, sem complicação.</div>
+      </div>
+      <div class="hero-right">
+        <div class="hero-kpi-grid">
+          <div class="hero-kpi">
+            <div class="hero-kpi-num">5</div>
+            <div class="hero-kpi-lbl">Módulos ativos</div>
+          </div>
+          <div class="hero-kpi-divider"></div>
+          <div class="hero-kpi">
+            <div class="hero-kpi-num">100%</div>
+            <div class="hero-kpi-lbl">Online agora</div>
+          </div>
+          <div class="hero-kpi-divider"></div>
+          <div class="hero-kpi">
+            <div class="hero-kpi-num">Dom</div>
+            <div class="hero-kpi-lbl">22 de março</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CRM BANNER -->
+  <div onclick="openModal('crm')" class="crm-banner">
+    <div class="crm-orb1"></div>
+    <div class="crm-orb2"></div>
+    <div class="crm-left">
+      <div class="crm-icon">
+        <svg viewBox="0 0 24 24" style="width:26px;height:26px;stroke:white;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+      </div>
+      <div class="crm-text">
+        <div class="crm-titlerow">
+          <span class="crm-title">CRM de Clientes</span>
+          <span class="crm-badge">Novidade</span>
+        </div>
+        <p class="crm-desc">Organize seus clientes como uma agenda inteligente. Guarde nome, contato e histórico de cada venda — nunca mais perca um cliente. Controle em que estágio está cada negociação e acompanhe tudo pelo navegador.</p>
+      </div>
+    </div>
+    <div class="crm-cta">
+      Saiba mais
+      <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:white;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </div>
+  </div>
+
+  <!-- MODULES -->
+  <div class="sec-head">
+    <div>
+      <div class="sec-title">Módulos disponíveis</div>
+      <div class="sec-sub">Clique em qualquer módulo para ver a descrição completa</div>
+    </div>
+    <span class="sec-count">5 de 5 ativos</span>
+  </div>
+
+  <div class="mods">
+
+    <!-- DELIVERY -->
+    <a class="mod" href="#" onclick="return openModal('del')">
+      <div class="mod-top t-del"></div>
+      <div class="mod-body">
+        <div class="mod-icon i-del">
+          <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
+        <div class="mod-mid">
+          <div class="mod-tag g-del">Popular</div>
+          <div class="mod-name">Delivery</div>
+          <div class="mod-desc">Faça seu pedido e receba em casa</div>
+        </div>
+        <div class="mod-right">
+          <div class="mod-arr a-del"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          <div class="mod-pill p-del">~30 min</div>
+        </div>
+      </div>
+    </a>
+
+    <!-- RETIRADA -->
+    <a class="mod" href="#" onclick="return openModal('ret')">
+      <div class="mod-top t-ret"></div>
+      <div class="mod-body">
+        <div class="mod-icon i-ret">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="mod-mid">
+          <div class="mod-tag g-ret">Sem frete</div>
+          <div class="mod-name">Retirada</div>
+          <div class="mod-desc">Faça seu pedido e retire no local</div>
+        </div>
+        <div class="mod-right">
+          <div class="mod-arr a-ret"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          <div class="mod-pill p-ret">~15 min</div>
+        </div>
+      </div>
+    </a>
+
+    <!-- FURA-FILA -->
+    <a class="mod" href="#" onclick="return openModal('fur')">
+      <div class="mod-top t-fur"></div>
+      <div class="mod-body">
+        <div class="mod-icon i-fur">
+          <svg viewBox="0 0 24 24"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <div class="mod-mid">
+          <div class="mod-tag g-fur">Sem fila</div>
+          <div class="mod-name">Fura-Fila</div>
+          <div class="mod-desc">Peça e pague sem entrar na fila</div>
+        </div>
+        <div class="mod-right">
+          <div class="mod-arr a-fur"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          <div class="mod-pill p-fur">Instantâneo</div>
+        </div>
+      </div>
+    </a>
+
+    <!-- FIDELIDADE -->
+    <a class="mod" href="#" onclick="return openModal('fid')">
+      <div class="mod-top t-fid"></div>
+      <div class="mod-body">
+        <div class="mod-icon i-fid">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="mod-mid">
+          <div class="mod-tag g-fid">Recompensas</div>
+          <div class="mod-name">Fidelidade</div>
+          <div class="mod-desc">Acumule pontos e troque por descontos</div>
+        </div>
+        <div class="mod-right">
+          <div class="mod-arr a-fid"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          <div class="mod-pill p-fid">Ver pontos</div>
+        </div>
+      </div>
+    </a>
+
+    <!-- VENDA ANTECIPADA -->
+    <a class="mod" href="#" onclick="return openModal('ant')">
+      <div class="mod-top t-ant"></div>
+      <div class="mod-body">
+        <div class="mod-icon i-ant">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div class="mod-mid">
+          <div class="mod-tag g-ant">Novidade</div>
+          <div class="mod-name">Venda Antecipada</div>
+          <div class="mod-desc">Reserve com antecedência e garanta seu pedido</div>
+        </div>
+        <div class="mod-right">
+          <div class="mod-arr a-ant"><svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+          <div class="mod-pill p-ant">Agendar</div>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span class="footer-left">© 2026 Prato Digital · v3.2.1 · Todos os direitos reservados</span>
+    <div class="footer-links">
+      <a href="#">Privacidade</a>
+      <a href="#">Termos de uso</a>
+      <a href="#">Suporte</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <a class="ni active" href="#"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span class="ni-lbl">Início</span><div class="ni-dot"></div></a>
+  <a class="ni" href="#"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="ni-lbl">Cardápio</span></a>
+  <a class="ni" href="#"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span class="ni-lbl">Pedidos</span></a>
+  <a class="ni" href="#"><svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span class="ni-lbl">Fidelidade</span></a>
+  <a class="ni" href="#"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span class="ni-lbl">Perfil</span></a>
+</nav>
+
+<!-- MODAL -->
+<div class="modal-ov" id="mOv" onclick="handleOvClick(event)">
+  <div class="modal" id="mBox">
+    <div class="modal-head" id="mHead">
+      <div class="modal-head-left">
+        <div class="modal-hicon" id="mIcon">
+          <svg id="mSvg" viewBox="0 0 24 24"></svg>
+        </div>
+        <div>
+          <div class="modal-htag" id="mTag"></div>
+          <div class="modal-htitle" id="mTitle"></div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="modal-divider"></div>
+    <div class="modal-body">
+      <p class="modal-text" id="mDesc"></p>
+    </div>
+    <div class="modal-footer" id="mFoot"></div>
+  </div>
+</div>
+
+<script>
+var data = {
+  del:{
+    color:'#F97316', bg:'#FFF4EE', tagColor:'#C2500A', tag:'Popular',
+    title:'Delivery',
+    svg:'<rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>',
+    desc:'O módulo DELIVERY é assim: informe sua localização, encontre o restaurante próximo, faça o pedido, realize o pagamento e aguarde. No conforto da sua casa ou no trabalho, tudo pelo app. E aguarde o entregador chegar com seu pedido.',
+    btn:null
+  },
+  ret:{
+    color:'#D97706', bg:'#FFFBEB', tagColor:'#92400E', tag:'Sem frete',
+    title:'Retirada',
+    svg:'<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+    desc:'O módulo RETIRADA NO LOCAL é assim: faça o pedido, pague online ou em dinheiro ou na maquininha. Após o pedido ser confirmado, é só ir ao estabelecimento e retirar o seu pedido!',
+    btn:null
+  },
+  fur:{
+    color:'#059669', bg:'#ECFDF5', tagColor:'#065F46', tag:'Sem fila',
+    title:'Fura-Fila',
+    svg:'<polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+    desc:'Semelhante a um app de pedidos, o módulo FURA-FILA tem algumas vantagens. Escolha o prato, faça o pedido, pague online, e ao receber a senha, aguarde ser chamado. Tudo isso sem precisar enfrentar filas ou perder sua mesa.',
+    btn:null
+  },
+  fid:{
+    color:'#7C3AED', bg:'#F5F3FF', tagColor:'#4C1D95', tag:'Recompensas',
+    title:'Fidelidade',
+    svg:'<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+    desc:'Acumule pontos comprando no restaurante ou pelo app e troque por descontos exclusivos.',
+    btn:{label:'Como usar?', color:'#7C3AED'}
+  },
+  ant:{
+    color:'#0D9488', bg:'#F0FDFA', tagColor:'#0F766E', tag:'Novidade',
+    title:'Venda Antecipada',
+    svg:'<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+    desc:'Compre saldo antecipadamente para usar no restaurante!',
+    btn:null
+  },
+  crm:{
+    color:'#6D28D9', bg:'#F5F3FF', tagColor:'#4C1D95', tag:'Novidade',
+    title:'CRM de Clientes',
+    svg:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    desc:'Organize seus clientes como uma agenda inteligente. Guarde nome, contato e histórico de cada venda — nunca mais perca um cliente. Controle em que estágio está cada negociação e acompanhe tudo pelo navegador.',
+    btn:{label:'Quero conhecer!', color:'#6D28D9'}
+  }
+};
+
+function openModal(key) {
+  var m = data[key];
+  var ov = document.getElementById('mOv');
+  var head = document.getElementById('mHead');
+  var icon = document.getElementById('mIcon');
+  var svg  = document.getElementById('mSvg');
+  var tag  = document.getElementById('mTag');
+  var title= document.getElementById('mTitle');
+  var desc = document.getElementById('mDesc');
+  var foot = document.getElementById('mFoot');
+
+  head.style.background = m.bg;
+  icon.style.background = m.bg;
+  icon.style.border = '1.5px solid ' + m.color + '44';
+  svg.innerHTML = m.svg;
+  svg.style.stroke = m.color;
+  tag.textContent = m.tag;
+  tag.style.background = m.bg;
+  tag.style.color = m.tagColor;
+  tag.style.border = '1px solid ' + m.color + '55';
+  title.textContent = m.title;
+  desc.textContent = m.desc;
+
+  if (m.btn) {
+    foot.innerHTML = '<button class="modal-btn" style="background:' + m.btn.color + '">' + m.btn.label + '</button>';
+  } else {
+    foot.innerHTML = '';
+  }
+
+  ov.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  return false;
+}
+
+function closeModal() {
+  document.getElementById('mOv').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function handleOvClick(e) {
+  if (e.target === document.getElementById('mOv')) closeModal();
+}
+
+document.querySelectorAll('.ni').forEach(function(n){
+  n.addEventListener('click', function(e){
+    e.preventDefault();
+    document.querySelectorAll('.ni').forEach(function(x){ x.classList.remove('active'); });
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
